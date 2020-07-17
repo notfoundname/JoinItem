@@ -13,7 +13,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 public class Configurator {
-	public File file;
+	public File config_file;
 	public FileConfiguration config;
 
 	public final File dataFolder;
@@ -24,22 +24,23 @@ public class Configurator {
 		this.main = main;
 	}
 
+	@SuppressWarnings("serial")
 	public void loadDefaults() {
 		dataFolder.mkdirs();
 
-		file = new File(dataFolder, "config.yml");
+		config_file = new File(dataFolder, "config.yml");
 
 		config = new YamlConfiguration();
 
-		if (!file.exists()) {
+		if (!config_file.exists()) {
 			try {
-				file.createNewFile();
+				config_file.createNewFile();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 		try {
-			config.load(file);
+			config.load(config_file);
 		} catch (IOException | InvalidConfigurationException e) {
 			e.printStackTrace();
 		}
@@ -49,7 +50,7 @@ public class Configurator {
 		checkOrSetConfig(modify, "version", 1);
 
 		if (config.getInt("version") != 1) {
-			file.renameTo(new File(dataFolder, "config_backup.yml"));
+			config_file.renameTo(new File(dataFolder, "config_backup.yml"));
 			Bukkit.getServer().getLogger()
 					.info("[JoinItem] Your XPWars configuration file was backed up. Please transfer values.");
 			loadDefaults();
@@ -89,7 +90,7 @@ public class Configurator {
 		
 		if (modify.get()) {
 			try {
-				config.save(file);
+				config.save(config_file);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
@@ -98,7 +99,7 @@ public class Configurator {
 
 	public void saveConfig() {
 		try {
-			config.save(file);
+			config.save(config_file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

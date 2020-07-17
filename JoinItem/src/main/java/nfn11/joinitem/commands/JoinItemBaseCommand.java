@@ -8,7 +8,7 @@ import nfn11.joinitem.main.JoinItem;
 
 public abstract class JoinItemBaseCommand {
 
-	public static final String ADMIN_PERMISSION = "joinitem.admin";
+	public static final String ADMIN_PERMISSION = "customjoinitems.admin";
 
 	private String name;
 	private String permission;
